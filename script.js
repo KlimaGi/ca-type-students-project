@@ -6,7 +6,7 @@ const INITIAL_STUDENT_DATA = [
     surname: "Doe",
     age: 32,
     phone: "867979797",
-    email: "some@mail.com",
+    email: "lily@mail.com",
     itKnowledge: 7,
     groupName: "type 2",
     interests: ["node.js", "js"],
@@ -55,9 +55,6 @@ const INITIAL_STUDENT_DATA = [
 
 function renderInitialData(students) {
   students.map((student) => {
-    console.log(student);
-    console.log(student.name);
-
     let studentsListEl = document.querySelector("#students-list");
     let studentItem = document.createElement("div");
     studentItem.classList.add("student-item");
@@ -152,21 +149,59 @@ studentFormEl.addEventListener("submit", (event) => {
     input.classList.remove("input-error");
 
     if (!input.value) {
+      inputErrorMessage(input, "This field is required.");
       validForm = false;
+      return;
+    }
 
-      let alertText = "Not all fields are filled";
-      alertMessage(alertText, "error-alert");
+    if (input.name === "name" && input.value.length < 3) {
+      inputErrorMessage(input, "The name should have at least 3 letters.");
+      validForm = false;
+      return;
+    }
 
-      input.classList.add("input-error");
+    if (input.name === "surname" && input.value.length < 3) {
+      inputErrorMessage(input, "The surname should have at least 3 letters.");
+      validForm = false;
+      return;
+    }
 
-      let validationText = document.createElement("span");
-      validationText.textContent = "This field is required";
-      validationText.classList.add("input-error-message");
+    if (input.name === "age") {
+      if (input.value < 0) {
+        inputErrorMessage(input, "The age should be more than 0.");
+        validForm = false;
+        return;
+      }
+      if (input.value > 120) {
+        inputErrorMessage(input, "Are you sure this is your age?");
+        validForm = false;
+        return;
+      }
+    }
 
-      input.after(validationText);
+    if (input.name === "phone") {
+      if (input.value.length < 9 || input.value.length > 12) {
+        inputErrorMessage(input, "Wrong phone number.");
+        validForm = false;
+        return;
+      }
+    }
+
+    if (input.name === "email") {
+      if (!input.value.includes("@") || input.value.length < 5) {
+        inputErrorMessage(input, "Wrong email.");
+        validForm = false;
+        return;
+      }
     }
   });
   if (!validForm) return;
+
+  let hideByStar = (word) =>
+    word
+      .split("")
+      .map((a) => (a = "*"))
+      .join("");
 
   let studentsListEl = document.querySelector("#students-list");
   let studentItem = document.createElement("div");
@@ -182,10 +217,12 @@ studentFormEl.addEventListener("submit", (event) => {
   studentAgeEl.innerHTML = `<strong>Age</strong>: ${studentAge}`;
 
   let studentPhoneEl = document.createElement("p");
-  studentPhoneEl.innerHTML = `<strong>Phone</strong>: *******`;
+  let hidePhone = hideByStar(studentPhone);
+  studentPhoneEl.innerHTML = `<strong>Phone</strong>: ${hidePhone}`;
 
   let studentEmailEl = document.createElement("p");
-  studentEmailEl.innerHTML = `<strong>Email</strong>: *******`;
+  let hideEmail = hideByStar(studentEmail);
+  studentEmailEl.innerHTML = `<strong>Email</strong>: ${hideEmail}`;
 
   let studentKnowledgeEl = document.createElement("p");
   studentKnowledgeEl.innerHTML = `<strong>IT knowledge</strong>: ${studentKnowledge}`;
@@ -216,29 +253,16 @@ studentFormEl.addEventListener("submit", (event) => {
   let privateInfoButton = document.createElement("button");
   privateInfoButton.textContent = "Show private info";
 
-  // let hiddenData = true;
-
-  // privateInfoButton.addEventListener("click", () => {
-  //   if (hiddenData) {
-  //     studentPhoneEl.innerHTML = `<strong>Phone</strong>: ${studentPhone}`;
-  //     studentEmailEl.innerHTML = `<strong>Email</strong>: ${studentEmail}`;
-  //     privateInfoButton.textContent = "Hide personal info";
-  //   } else {
-  //     studentPhoneEl.innerHTML = `<strong>Phone</strong>: *******`;
-  //     studentEmailEl.innerHTML = `<strong>Email</strong>: *******`;
-  //     privateInfoButton.textContent = "Show personal info";
-  //   }
-  //   hiddenData = !hiddenData;
-  // });
-
   privateInfoButton.addEventListener("click", () => {
     if (!privateInfoButton.classList.contains("hide")) {
       studentPhoneEl.innerHTML = `<strong>Phone</strong>: ${studentPhone}`;
       studentEmailEl.innerHTML = `<strong>Email</strong>: ${studentEmail}`;
       privateInfoButton.textContent = "Hide personal info";
     } else {
-      studentPhoneEl.innerHTML = `<strong>Phone</strong>: *******`;
-      studentEmailEl.innerHTML = `<strong>Email</strong>: *******`;
+      let hidePhone = hideByStar(studentPhone);
+      let hideEmail = hideByStar(studentEmail);
+      studentPhoneEl.innerHTML = `<strong>Phone</strong>: ${hidePhone}`;
+      studentEmailEl.innerHTML = `<strong>Email</strong>: ${hideEmail}`;
       privateInfoButton.textContent = "Show personal info";
     }
     privateInfoButton.classList.toggle("hide");
@@ -287,5 +311,17 @@ function alertMessage(text, elementClass = "") {
   }, 5000);
 }
 
+function inputErrorMessage(inputElement, errorMessage) {
+  let alertText = "Not all fields are filled";
+  alertMessage(alertText, "error-alert");
+
+  inputElement.classList.add("input-error");
+
+  let inputError = document.createElement("span");
+  inputError.textContent = errorMessage;
+  inputError.classList.add("input-error-message");
+
+  inputElement.after(inputError);
+}
 // document.body.dataset.hide = false;
 // console.log(document.body.dataset.hide);

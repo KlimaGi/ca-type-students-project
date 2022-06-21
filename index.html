@@ -11,11 +11,10 @@
 <body>
 
   <h2>JS students form</h2>
-  <h3>Form</h3>
-  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consectetur alias aliquid quasi. Ad, veniam asperiores.</p>
-<form >
+  
+<form novalidate>
   <div id="name">
-    <label for="student-name">Name</label>
+    <label for="student-name">Name: </label>
     <input type="text" name="name" id="student-name" placeholder="Enter your name" class="required" value="Name">
   </div>
   
@@ -26,7 +25,7 @@
   
   <div>
     <label for="student-age">Age</label>
-    <input type="number" name="age" id="student-age" placeholder="Enter your age" min="18" max="120" class="required" value="31">
+    <input type="number" name="age" id="student-age" placeholder="Enter your age"  class="required" value="31">
   </div>
   
   <div>
@@ -49,13 +48,13 @@
 
 <fieldset>
 <legend>Group name:</legend>
-  <input id="student-group-1" type="radio" name="group" value="vigi 1" checked>
+  <input id="student-group-1" type="radio" name="group" value="type 1" checked>
   <label for="student-group-1">TYPE 1gr.</label>
 
-  <input id="student-group-2" type="radio" name="group" value="vigi 2">
+  <input id="student-group-2" type="radio" name="group" value="type 2">
   <label for="student-group-2">TYPE 2gr.</label>
 
-  <input id="student-group-3" type="radio" name="group" value="vigi 3">
+  <input id="student-group-3" type="radio" name="group" value="type 3">
   <label for="student-group-3">TYPE 3gr.</label>
 </fieldset>
 
