@@ -252,6 +252,7 @@ studentFormEl.addEventListener("submit", (event) => {
   // buttons
   let privateInfoButton = document.createElement("button");
   privateInfoButton.textContent = "Show private info";
+  privateInfoButton.classList.add("private-btn");
 
   privateInfoButton.addEventListener("click", () => {
     if (!privateInfoButton.classList.contains("hide")) {
@@ -270,6 +271,7 @@ studentFormEl.addEventListener("submit", (event) => {
 
   let deleteStudentButton = document.createElement("button");
   deleteStudentButton.textContent = "Remove student";
+  deleteStudentButton.classList.add("btn-delete");
 
   deleteStudentButton.addEventListener("click", () => {
     console.log(studentName);

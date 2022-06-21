@@ -1,5 +1,13 @@
 :root {
   --color-error: crimson;
+  --color-blue: #466d99;
+}
+
+* {
+  margin: 0;
+  line-height: 1.3rem;
+  box-sizing: border-box;
+  color: #535252;
 }
 
 .input-error {
@@ -12,4 +20,79 @@
 
 .error-alert {
   color: var(--color-error);
+}
+
+.main-title {
+  text-align: center;
+  padding: 1rem;
+}
+
+#student-form {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  border-radius: 3px;
+  box-shadow: 2px 2px 5px grey;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+.block-1 div {
+  margin: 0.8rem;
+  display: flex;
+  justify-content: end;
+}
+.block-2 div {
+  margin: 0.8rem;
+  display: flex;
+  justify-content: start;
+}
+
+.block-2 fieldset {
+  margin: 0.8rem;
+  padding: 0.8rem;
+  width: 22rem;
+}
+
+.block-2 fieldset input {
+  margin-left: 0.9rem;
+}
+.btn-form {
+  margin: 0.5rem auto;
+  width: 90%;
+}
+#students-list {
+  max-width: 48rem;
+  margin: 1rem auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.student-item {
+  margin: 1rem;
+  padding: 1rem 2rem;
+  width: 22rem;
+  border-radius: 3px;
+  box-shadow: 2px 2px 5px grey;
+  background-color: #f5f3edbc;
+}
+.interest-list {
+  display: flex;
+  justify-content: space-evenly;
+}
+.student-item strong,
+.interest-title {
+  color: var(--color-blue);
+}
+.btn-delete {
+  margin-left: 1rem;
+}
+.private-btn,
+.btn-delete,
+.btn-form {
+  margin-top: 0.8rem;
+  padding: 0.5rem;
+  border-style: none;
+  border-radius: 3px;
+  box-shadow: 2px 2px 5px grey;
 }
