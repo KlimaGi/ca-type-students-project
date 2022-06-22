@@ -25,6 +25,7 @@
 .main-title {
   text-align: center;
   padding: 1rem;
+  color: var(--color-blue);
 }
 
 #student-form {
@@ -59,7 +60,7 @@
 }
 .btn-form {
   margin: 0.5rem auto;
-  width: 90%;
+  width: 93%;
 }
 #students-list {
   max-width: 48rem;
