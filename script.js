@@ -71,7 +71,6 @@ function renderInitialData(students) {
     let studentEmail = student.email;
     let studentKnowledge = student.itKnowledge;
     let studentGroup = student.groupName;
-
     let interests = student.interests;
 
     let studentsListEl = document.querySelector("#students-list");
@@ -86,7 +85,7 @@ function renderInitialData(students) {
     surnameEl.innerHTML = `<strong>Surname</strong>: <span class="student-surname">${studentSurname}</span>`;
 
     let studentAgeEl = document.createElement("p");
-    studentAgeEl.innerHTML = `<strong>Age</strong>: ${studentAge}`;
+    studentAgeEl.innerHTML = `<strong>Age</strong>: <span class="student-age">${studentAge}</span>`;
 
     let studentPhoneEl = document.createElement("p");
     studentPhoneEl.innerHTML = `<strong>Phone</strong>: ${studentPhone}`;
@@ -95,10 +94,10 @@ function renderInitialData(students) {
     studentEmailEl.innerHTML = `<strong>Email</strong>: ${studentEmail}`;
 
     let studentKnowledgeEl = document.createElement("p");
-    studentKnowledgeEl.innerHTML = `<strong>IT knowledge</strong>: ${studentKnowledge}`;
+    studentKnowledgeEl.innerHTML = `<strong>IT knowledge</strong>: <span class="student-it-knowledge">${studentKnowledge}</span>`;
 
     let studentGroupEl = document.createElement("p");
-    studentGroupEl.innerHTML = `<strong>Student group</strong>: ${studentGroup}`;
+    studentGroupEl.innerHTML = `<strong>Student group</strong>: <span class="student-group">${studentGroup}</span>`;
     // --------- get all checkboxes checked values
     let interestWrapperEl = document.createElement("div");
     interestWrapperEl.classList.add("interest-wrapper");
@@ -256,13 +255,13 @@ studentFormEl.addEventListener("submit", (event) => {
   studentItem.classList.add("student-item");
 
   let nameEl = document.createElement("p");
-  nameEl.innerHTML = `<strong>Name</strong>: ${studentName}`;
+  nameEl.innerHTML = `<strong>Name</strong>: <span class="student-name">${studentName}</span>`;
 
   let surnameEl = document.createElement("p");
-  surnameEl.innerHTML = `<strong>Surname</strong>: ${studentSurname}`;
+  surnameEl.innerHTML = `<strong>Surname</strong>: $<span class="student-surname">{studentSurname}</span>`;
 
   let studentAgeEl = document.createElement("p");
-  studentAgeEl.innerHTML = `<strong>Age</strong>: ${studentAge}`;
+  studentAgeEl.innerHTML = `<strong>Age</strong>: <span class="student-age">${studentAge}</span>`;
 
   let studentPhoneEl = document.createElement("p");
   let hidePhone = hideByStar(studentPhone);
@@ -273,10 +272,10 @@ studentFormEl.addEventListener("submit", (event) => {
   studentEmailEl.innerHTML = `<strong>Email</strong>: ${hideEmail}`;
 
   let studentKnowledgeEl = document.createElement("p");
-  studentKnowledgeEl.innerHTML = `<strong>IT knowledge</strong>: ${studentKnowledge}`;
+  studentKnowledgeEl.innerHTML = `<strong>IT knowledge</strong>: <span class="student-it-knowledge">${studentKnowledge}</span>`;
 
   let studentGroupEl = document.createElement("p");
-  studentGroupEl.innerHTML = `<strong>Student group</strong>: ${studentGroup}`;
+  studentGroupEl.innerHTML = `<strong>Student group</strong>: <span class="student-group">${studentGroup}</span>`;
   // --------- get all checkboxes checked values
   let interestWrapperEl = document.createElement("div");
   interestWrapperEl.classList.add("interest-wrapper");
@@ -435,6 +434,9 @@ searchForm.addEventListener("submit", (event) => {
 
   let searchInput = event.target.elements.search.value.toLowerCase().trim();
 
+  let searchVariation = event.target.elements.variations.value;
+  console.log(searchVariation);
+
   let allStudents = document.querySelectorAll(".student-item");
 
   allStudents.forEach((student) => {
@@ -442,12 +444,47 @@ searchForm.addEventListener("submit", (event) => {
       .querySelector(".student-name")
       .textContent.toLowerCase()
       .trim();
+    let studentSurname = student
+      .querySelector(".student-surname")
+      .textContent.toLowerCase()
+      .trim();
+    let studentAge = student.querySelector(".student-age").textContent.trim();
+    let studentItKnowledge = student.querySelector(
+      ".student-it-knowledge"
+    ).textContent;
+    let studentGroup = student
+      .querySelector(".student-group")
+      .textContent.toLocaleLowerCase();
 
-    if (studentName.includes(searchInput)) {
-      student.style.display = "block";
-    } else {
-      // student.style.background = "powderblue";
-      student.style.display = "none";
+    switch (searchVariation) {
+      case "name":
+        if (studentName.includes(searchInput)) student.style.display = "block";
+        else student.style.display = "none";
+        break;
+
+      case "surname":
+        if (studentSurname.includes(searchInput))
+          student.style.display = "block";
+        else student.style.display = "none";
+        break;
+
+      case "age":
+        if (studentAge === searchInput) student.style.display = "block";
+        else student.style.display = "none";
+        break;
+
+      case "it-knowledge":
+        if (studentItKnowledge === searchInput) student.style.display = "block";
+        else student.style.display = "none";
+        break;
+
+      case "group":
+        if (studentGroup === searchInput) student.style.display = "block";
+        else student.style.display = "none";
+        break;
+
+      default:
+        console.error("netinkamas");
     }
   });
 });
