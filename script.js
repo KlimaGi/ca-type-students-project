@@ -149,6 +149,22 @@ function renderInitialData(students) {
       alertMessage(deleteText);
     });
 
+    let editStudentButton = document.createElement("button");
+    editStudentButton.textContent = "Edit";
+
+    editStudentButton.addEventListener("click", () => {
+      studentFormEl.elements.name.value = studentName;
+      studentFormEl.elements.surname.value = studentSurname;
+      studentFormEl.elements.age.value = studentAge;
+      studentFormEl.elements.phone.value = studentPhone;
+      studentFormEl.elements.email.value = studentEmail;
+      studentFormEl.elements.group.value = studentGroup;
+      document.querySelector("#student-it-knowledge").value = studentKnowledge;
+      studentFormEl.elements["it-knowledge"].value = studentKnowledge;
+
+      studentFormEl.elements.interest.forEach((formInterest) => {});
+    });
+
     studentItem.append(
       nameEl,
       surnameEl,
