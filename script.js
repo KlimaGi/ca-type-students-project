@@ -62,149 +62,151 @@ let hideByStar = (word) =>
     .map((a) => (a = "*"))
     .join("");
 
-function renderStudent() {}
+function renderStudent(studentData) {
+  let studentName = studentData.name;
+  let studentSurname = studentData.surname;
+  let studentAge = studentData.age;
+  let studentPhone = studentData.phone;
+  let studentEmail = studentData.email;
+  let studentKnowledge = studentData.itKnowledge;
+  let studentGroup = studentData.groupName;
+  let interests = studentData.interests;
+
+  let studentsListEl = document.querySelector("#students-list");
+  let studentItem = document.createElement("div");
+  studentItem.classList.add("student-item");
+
+  let nameEl = document.createElement("p");
+  nameEl.innerHTML = `<strong>Name</strong>:
+    <span class="student-name"> ${studentName} </span>`;
+
+  let surnameEl = document.createElement("p");
+  surnameEl.innerHTML = `<strong>Surname</strong>: <span class="student-surname">${studentSurname}</span>`;
+
+  let studentAgeEl = document.createElement("p");
+  studentAgeEl.innerHTML = `<strong>Age</strong>: <span class="student-age">${studentAge}</span>`;
+
+  let studentPhoneEl = document.createElement("p");
+  studentPhoneEl.innerHTML = `<strong>Phone</strong>: ${studentPhone}`;
+
+  let studentEmailEl = document.createElement("p");
+  studentEmailEl.innerHTML = `<strong>Email</strong>: ${studentEmail}`;
+
+  let studentKnowledgeEl = document.createElement("p");
+  studentKnowledgeEl.innerHTML = `<strong>IT knowledge</strong>: <span class="student-it-knowledge">${studentKnowledge}</span>`;
+
+  let studentGroupEl = document.createElement("p");
+  studentGroupEl.innerHTML = `<strong>Student group</strong>: <span class="student-group">${studentGroup}</span>`;
+  // --------- get all checkboxes checked values
+  let interestWrapperEl = document.createElement("div");
+  interestWrapperEl.classList.add("interest-wrapper");
+
+  let interestTitleEl = document.createElement("h4");
+  interestTitleEl.classList.add("interest-title");
+  interestTitleEl.textContent = "Interests: ";
+
+  let interestListEl = document.createElement("ul");
+  interestListEl.classList.add("interest-list");
+
+  interests.forEach((interest) => {
+    let interestItemElement = document.createElement("li");
+    interestItemElement.textContent = interest;
+
+    interestListEl.append(interestItemElement);
+  });
+
+  interestWrapperEl.append(interestTitleEl, interestListEl);
+
+  // buttons
+  let privateInfoButton = document.createElement("button");
+  privateInfoButton.textContent = "Show private info";
+  privateInfoButton.classList.add("private-btn");
+
+  privateInfoButton.addEventListener("click", () => {
+    if (!privateInfoButton.classList.contains("hide")) {
+      studentPhoneEl.innerHTML = `<strong>Phone</strong>: ${studentPhone}`;
+      studentEmailEl.innerHTML = `<strong>Email</strong>: ${studentEmail}`;
+      privateInfoButton.textContent = "Hide personal info";
+    } else {
+      let hidePhone = hideByStar(studentPhone);
+      let hideEmail = hideByStar(studentEmail);
+      studentPhoneEl.innerHTML = `<strong>Phone</strong>: ${hidePhone}`;
+      studentEmailEl.innerHTML = `<strong>Email</strong>: ${hideEmail}`;
+      privateInfoButton.textContent = "Show personal info";
+    }
+    privateInfoButton.classList.toggle("hide");
+  });
+
+  let deleteStudentButton = document.createElement("button");
+  deleteStudentButton.textContent = "Remove student";
+  deleteStudentButton.classList.add("btn-delete");
+
+  deleteStudentButton.addEventListener("click", () => {
+    console.log(studentName);
+    studentItem.remove();
+    let deleteText = `Student ${studentName} ${studentSurname} is removed`;
+    alertMessage(deleteText);
+  });
+
+  let editStudentButton = document.createElement("button");
+  editStudentButton.textContent = "Edit";
+
+  editStudentButton.addEventListener("click", () => {
+    studentFormEl.elements.name.value = studentName;
+    studentFormEl.elements.surname.value = studentSurname;
+    studentFormEl.elements.age.value = studentAge;
+    studentFormEl.elements.phone.value = studentPhone;
+    studentFormEl.elements.email.value = studentEmail;
+    studentFormEl.elements.group.value = studentGroup;
+    document.querySelector("#student-it-knowledge").value = studentKnowledge;
+    studentFormEl.elements["it-knowledge"].value = studentKnowledge;
+
+    studentFormEl.elements.languages.forEach((formInterest) => {
+      formInterest.checked = false;
+      interests.forEach((studentInterest) => {
+        if (studentInterest.value === formInterest.value) {
+          formInterest.checked = true;
+        }
+      });
+    });
+
+    studentFormEl.querySelector('[type="submit"]').textContent = "Save Changes";
+    editStudent = studentItem;
+
+    itKnowledgeOutputReset();
+  });
+
+  studentItem.append(
+    nameEl,
+    surnameEl,
+    studentAgeEl,
+    studentPhoneEl,
+    studentEmailEl,
+    studentKnowledgeEl,
+    studentGroupEl,
+    interestWrapperEl,
+    privateInfoButton,
+    deleteStudentButton,
+    editStudentButton
+  );
+
+  if (editStudent) {
+    editStudent.replaceWith(studentItem);
+    editStudent = null;
+
+    let alertText = `Student edited (${studentName} ${studentSurname})`;
+    alertMessage(alertText);
+    studentFormEl.querySelector('[type="submit]').textContent = "Submit";
+  } else {
+    studentsListEl.prepend(studentItem);
+    let alertText = `Student created (${studentName} ${studentSurname})`;
+    alertMessage(alertText);
+  }
+}
 
 function renderInitialData(students) {
   students.map((student) => {
-    let studentName = student.name;
-    let studentSurname = student.surname;
-    let studentAge = student.age;
-    let studentPhone = student.phone;
-    let studentEmail = student.email;
-    let studentKnowledge = student.itKnowledge;
-    let studentGroup = student.groupName;
-    let interests = student.interests;
-
-    let studentsListEl = document.querySelector("#students-list");
-    let studentItem = document.createElement("div");
-    studentItem.classList.add("student-item");
-
-    let nameEl = document.createElement("p");
-    nameEl.innerHTML = `<strong>Name</strong>:
-    <span class="student-name"> ${studentName} </span>`;
-
-    let surnameEl = document.createElement("p");
-    surnameEl.innerHTML = `<strong>Surname</strong>: <span class="student-surname">${studentSurname}</span>`;
-
-    let studentAgeEl = document.createElement("p");
-    studentAgeEl.innerHTML = `<strong>Age</strong>: <span class="student-age">${studentAge}</span>`;
-
-    let studentPhoneEl = document.createElement("p");
-    studentPhoneEl.innerHTML = `<strong>Phone</strong>: ${studentPhone}`;
-
-    let studentEmailEl = document.createElement("p");
-    studentEmailEl.innerHTML = `<strong>Email</strong>: ${studentEmail}`;
-
-    let studentKnowledgeEl = document.createElement("p");
-    studentKnowledgeEl.innerHTML = `<strong>IT knowledge</strong>: <span class="student-it-knowledge">${studentKnowledge}</span>`;
-
-    let studentGroupEl = document.createElement("p");
-    studentGroupEl.innerHTML = `<strong>Student group</strong>: <span class="student-group">${studentGroup}</span>`;
-    // --------- get all checkboxes checked values
-    let interestWrapperEl = document.createElement("div");
-    interestWrapperEl.classList.add("interest-wrapper");
-
-    let interestTitleEl = document.createElement("h4");
-    interestTitleEl.classList.add("interest-title");
-    interestTitleEl.textContent = "Interests: ";
-
-    let interestListEl = document.createElement("ul");
-    interestListEl.classList.add("interest-list");
-
-    interests.forEach((el) => {
-      let interestItemElement = document.createElement("li");
-      interestItemElement.textContent = el;
-
-      interestListEl.append(interestItemElement);
-    });
-
-    interestWrapperEl.append(interestTitleEl, interestListEl);
-
-    // buttons
-    let privateInfoButton = document.createElement("button");
-    privateInfoButton.textContent = "Show private info";
-    privateInfoButton.classList.add("private-btn");
-
-    privateInfoButton.addEventListener("click", () => {
-      if (!privateInfoButton.classList.contains("hide")) {
-        studentPhoneEl.innerHTML = `<strong>Phone</strong>: ${studentPhone}`;
-        studentEmailEl.innerHTML = `<strong>Email</strong>: ${studentEmail}`;
-        privateInfoButton.textContent = "Hide personal info";
-      } else {
-        let hidePhone = hideByStar(studentPhone);
-        let hideEmail = hideByStar(studentEmail);
-        studentPhoneEl.innerHTML = `<strong>Phone</strong>: ${hidePhone}`;
-        studentEmailEl.innerHTML = `<strong>Email</strong>: ${hideEmail}`;
-        privateInfoButton.textContent = "Show personal info";
-      }
-      privateInfoButton.classList.toggle("hide");
-    });
-
-    let deleteStudentButton = document.createElement("button");
-    deleteStudentButton.textContent = "Remove student";
-    deleteStudentButton.classList.add("btn-delete");
-
-    deleteStudentButton.addEventListener("click", () => {
-      console.log(studentName);
-      studentItem.remove();
-      let deleteText = `Student ${studentName} ${studentSurname} is removed`;
-      alertMessage(deleteText);
-    });
-
-    let editStudentButton = document.createElement("button");
-    editStudentButton.textContent = "Edit";
-
-    editStudentButton.addEventListener("click", () => {
-      studentFormEl.elements.name.value = studentName;
-      studentFormEl.elements.surname.value = studentSurname;
-      studentFormEl.elements.age.value = studentAge;
-      studentFormEl.elements.phone.value = studentPhone;
-      studentFormEl.elements.email.value = studentEmail;
-      studentFormEl.elements.group.value = studentGroup;
-      document.querySelector("#student-it-knowledge").value = studentKnowledge;
-      studentFormEl.elements["it-knowledge"].value = studentKnowledge;
-
-      studentFormEl.elements.interest.forEach((formInterest) => {
-        formInterest.checked = false;
-        interests.forEach((studentInterest) => {
-          if (studentInterest.value === formInterest.value) {
-            formInterest.checked = true;
-          }
-        });
-      });
-
-      studentFormEl.querySelector('[type="submit"]').textContent =
-        "Save Changes";
-      editStudent = studentItem;
-
-      itKnowledgeOutputReset();
-    });
-
-    studentItem.append(
-      nameEl,
-      surnameEl,
-      studentAgeEl,
-      studentPhoneEl,
-      studentEmailEl,
-      studentKnowledgeEl,
-      studentGroupEl,
-      interestWrapperEl,
-      privateInfoButton,
-      deleteStudentButton
-    );
-
-    if (editStudent) {
-      editStudent.replaceWith(studentItem);
-      editStudent = null;
-
-      let alertText = `Student edited (${studentName} ${studentSurname})`;
-      alertMessage(alertText);
-      studentFormEl.querySelector('[type="submit]').textContent = "Submit";
-    } else {
-      studentsListEl.prepend(studentItem);
-      let alertText = `Student created (${studentName} ${studentSurname})`;
-      alertMessage(alertText);
-    }
+    renderStudent(student);
   });
 }
 renderInitialData(INITIAL_STUDENT_DATA);
@@ -224,24 +226,222 @@ itKnowledgeOutputReset();
 studentFormEl.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  let studentName = document.querySelector("#student-name").value;
-  let studentSurname = document.getElementById("student-surname").value;
-  let studentAge = studentFormEl.querySelector("#student-age").value;
-  let studentPhone = studentFormEl.querySelector('[name="phone"]').value;
-  let studentEmail = event.target.elements.email.value;
-  let studentKnowledge = event.target.elements["it-knowledge"].value;
-  //let studentGroupEl = document.querySelector('input[name="group"]:checked');
-  let studentGroup = event.target.elements.group.value;
+  // let studentName = document.querySelector("#student-name").value;
+  // let studentSurname = document.getElementById("student-surname").value;
+  // let studentAge = studentFormEl.querySelector("#student-age").value;
+  // let studentPhone = studentFormEl.querySelector('[name="phone"]').value;
+  // let studentEmail = event.target.elements.email.value;
+  // let studentKnowledge = event.target.elements["it-knowledge"].value;
+  // let studentGroup = event.target.elements.group.value;
 
-  let interests = studentFormEl.querySelectorAll(
+  // let interests = studentFormEl.querySelectorAll(
+  //   'input[name="languages"]:checked'
+  // );
+
+  // event.target selectina form'a
+  let formIsValid = formErrorHandler(event.target);
+  // jei false tolimesniu veiksmu nevykdys, t.y. nekurs studentItem
+  if (!formIsValid) return;
+
+  let formInterests = studentFormEl.querySelectorAll(
     'input[name="languages"]:checked'
   );
+  let interestValues = [...formInterests].map((interest) => {
+    return interest.value;
+  });
+  // let test = [];
+  // formInterest.forEach((interest) => {
+  //   test.push(interest.value);
+  // });
+  // ------------------------------***
+  //console.log(formInterest);
+  //console.log([...formInterest]); // nodeList iskleidzia, ir veiks map'as
+  // -------------------------------***
+  let studentFormData = {
+    name: document.querySelector("#student-name").value,
+    surname: document.getElementById("student-surname").value,
+    age: studentFormEl.querySelector("#student-age").value,
+    phone: studentFormEl.querySelector('[name="phone"]').value,
+    email: event.target.elements.email.value,
+    itKnowledge: event.target.elements["it-knowledge"].value,
+    group: event.target.elements.group.value,
+    interests: interestValues,
+  };
 
-  document
+  renderStudent(studentFormData);
+
+  // let studentsListEl = document.querySelector("#students-list");
+  // let studentItem = document.createElement("div");
+  // studentItem.classList.add("student-item");
+
+  // let nameEl = document.createElement("p");
+  // nameEl.innerHTML = `<strong>Name</strong>: <span class="student-name">${studentName}</span>`;
+
+  // let surnameEl = document.createElement("p");
+  // surnameEl.innerHTML = `<strong>Surname</strong>: <span class="student-surname">${studentSurname}</span>`;
+
+  // let studentAgeEl = document.createElement("p");
+  // studentAgeEl.innerHTML = `<strong>Age</strong>: <span class="student-age">${studentAge}</span>`;
+
+  // let studentPhoneEl = document.createElement("p");
+  // let hidePhone = hideByStar(studentPhone);
+  // studentPhoneEl.innerHTML = `<strong>Phone</strong>: ${hidePhone}`;
+
+  // let studentEmailEl = document.createElement("p");
+  // let hideEmail = hideByStar(studentEmail);
+  // studentEmailEl.innerHTML = `<strong>Email</strong>: ${hideEmail}`;
+
+  // let studentKnowledgeEl = document.createElement("p");
+  // studentKnowledgeEl.innerHTML = `<strong>IT knowledge</strong>: <span class="student-it-knowledge">${studentKnowledge}</span>`;
+
+  // let studentGroupEl = document.createElement("p");
+  // studentGroupEl.innerHTML = `<strong>Student group</strong>: <span class="student-group">${studentGroup}</span>`;
+  // // --------- get all checkboxes checked values
+  // let interestWrapperEl = document.createElement("div");
+  // interestWrapperEl.classList.add("interest-wrapper");
+
+  // let interestTitleEl = document.createElement("h4");
+  // interestTitleEl.classList.add("interest-title");
+  // interestTitleEl.textContent = "Interests: ";
+
+  // let interestListEl = document.createElement("ul");
+  // interestListEl.classList.add("interest-list");
+
+  // interests.forEach((interest) => {
+  //   let interestItemElement = document.createElement("li");
+  //   interestItemElement.textContent = interest.value;
+
+  //   interestListEl.append(interestItemElement);
+  // });
+
+  // interestWrapperEl.append(interestTitleEl, interestListEl);
+
+  // // buttons
+  // let privateInfoButton = document.createElement("button");
+  // privateInfoButton.textContent = "Show private info";
+  // privateInfoButton.classList.add("private-btn");
+
+  // privateInfoButton.addEventListener("click", () => {
+  //   if (!privateInfoButton.classList.contains("hide")) {
+  //     studentPhoneEl.innerHTML = `<strong>Phone</strong>: ${studentPhone}`;
+  //     studentEmailEl.innerHTML = `<strong>Email</strong>: ${studentEmail}`;
+  //     privateInfoButton.textContent = "Hide personal info";
+  //   } else {
+  //     let hidePhone = hideByStar(studentPhone);
+  //     let hideEmail = hideByStar(studentEmail);
+  //     studentPhoneEl.innerHTML = `<strong>Phone</strong>: ${hidePhone}`;
+  //     studentEmailEl.innerHTML = `<strong>Email</strong>: ${hideEmail}`;
+  //     privateInfoButton.textContent = "Show personal info";
+  //   }
+  //   privateInfoButton.classList.toggle("hide");
+  // });
+
+  // let deleteStudentButton = document.createElement("button");
+  // deleteStudentButton.textContent = "Remove student";
+  // deleteStudentButton.classList.add("btn-delete");
+
+  // deleteStudentButton.addEventListener("click", () => {
+  //   studentItem.remove();
+  //   let deleteText = `Student ${studentName} ${studentSurname} is removed`;
+  //   alertMessage(deleteText);
+  // });
+
+  // let editStudentButton = document.createElement("button");
+  // editStudentButton.textContent = "Edit";
+
+  // editStudentButton.addEventListener("click", () => {
+  //   // console.dir(studentFormEl.elements.group.value);
+  //   //studentFormEl.elements.group.value = "type 2";
+
+  //   studentFormEl.elements.name.value = studentName;
+  //   studentFormEl.elements.surname.value = studentSurname;
+  //   studentFormEl.elements.age.value = studentAge;
+  //   studentFormEl.elements.phone.value = studentPhone;
+  //   studentFormEl.elements.email.value = studentEmail;
+  //   studentFormEl.elements.group.value = studentGroup;
+  //   studentFormEl.elements["it-knowledge"].value = studentKnowledge;
+
+  //   studentFormEl.elements.languages.forEach((formInterest) => {
+  //     formInterest.checked = false;
+
+  //     interests.forEach((studentInterest) => {
+  //       if (studentInterest.value === formInterest.value) {
+  //         formInterest.checked = true;
+  //       }
+  //     });
+  //   });
+
+  //   studentFormEl.querySelector('[type="submit"]').textContent = "Save Changes";
+
+  //   // jei ne button, bet input type submit, input neturi text content, nes yra save
+  //   // uzdarantis tag'as, todel VALUE
+  //   //studentFormEl.querySelector('[type="submit"]').value = "Save Changes";
+  //   editStudent = studentItem;
+  //   itKnowledgeOutputReset();
+  // });
+
+  // studentItem.append(
+  //   nameEl,
+  //   surnameEl,
+  //   studentAgeEl,
+  //   studentPhoneEl,
+  //   studentEmailEl,
+  //   studentKnowledgeEl,
+  //   studentGroupEl,
+  //   interestWrapperEl,
+  //   privateInfoButton,
+  //   deleteStudentButton,
+  //   editStudentButton
+  // );
+
+  // if (editStudent) {
+  //   console.log("redaguojamas studentas");
+
+  //   // edit saugo originalaus studentItem reiksme
+  //   console.log(editStudent);
+  //   // studentItem kintamasis saugo dabartine formos studento reiksme
+  //   console.log(studentItem);
+
+  //   editStudent.replaceWith(studentItem);
+  //   editStudent = null;
+
+  //   let alertText = `Student edited (${studentName} ${studentSurname})`;
+  //   alertMessage(alertText);
+
+  //   studentFormEl.querySelector('[type="submit"]').textContent = "Submit";
+  // } else {
+  //   console.log("kuriamas naujas studentas");
+
+  //   studentsListEl.prepend(studentItem);
+
+  //   let alertText = `Student created (${studentName} ${studentSurname})`;
+  //   alertMessage(alertText);
+  // }
+
+  //studentFormEl.reset();
+  event.target.reset();
+  itKnowledgeOutputReset();
+});
+
+function alertMessage(text, elementClass = "") {
+  const alertEl = document.querySelector("#alert");
+  alertEl.textContent = text;
+
+  if (elementClass) alertEl.classList.add(elementClass);
+
+  setTimeout(() => {
+    alertEl.textContent = "";
+    if (elementClass) alertEl.classList.remove(elementClass);
+  }, 5000);
+}
+
+function formErrorHandler(form) {
+  // pasalina error span'us
+  form
     .querySelectorAll(".input-error-message")
     .forEach((input) => input.remove());
 
-  let requiredInputs = document.querySelectorAll("input.required");
+  let requiredInputs = form.querySelectorAll("input.required");
 
   let validForm = true;
 
@@ -296,171 +496,7 @@ studentFormEl.addEventListener("submit", (event) => {
     }
   });
 
-  if (!validForm) return;
-
-  let studentsListEl = document.querySelector("#students-list");
-  let studentItem = document.createElement("div");
-  studentItem.classList.add("student-item");
-
-  let nameEl = document.createElement("p");
-  nameEl.innerHTML = `<strong>Name</strong>: <span class="student-name">${studentName}</span>`;
-
-  let surnameEl = document.createElement("p");
-  surnameEl.innerHTML = `<strong>Surname</strong>: <span class="student-surname">${studentSurname}</span>`;
-
-  let studentAgeEl = document.createElement("p");
-  studentAgeEl.innerHTML = `<strong>Age</strong>: <span class="student-age">${studentAge}</span>`;
-
-  let studentPhoneEl = document.createElement("p");
-  let hidePhone = hideByStar(studentPhone);
-  studentPhoneEl.innerHTML = `<strong>Phone</strong>: ${hidePhone}`;
-
-  let studentEmailEl = document.createElement("p");
-  let hideEmail = hideByStar(studentEmail);
-  studentEmailEl.innerHTML = `<strong>Email</strong>: ${hideEmail}`;
-
-  let studentKnowledgeEl = document.createElement("p");
-  studentKnowledgeEl.innerHTML = `<strong>IT knowledge</strong>: <span class="student-it-knowledge">${studentKnowledge}</span>`;
-
-  let studentGroupEl = document.createElement("p");
-  studentGroupEl.innerHTML = `<strong>Student group</strong>: <span class="student-group">${studentGroup}</span>`;
-  // --------- get all checkboxes checked values
-  let interestWrapperEl = document.createElement("div");
-  interestWrapperEl.classList.add("interest-wrapper");
-
-  let interestTitleEl = document.createElement("h4");
-  interestTitleEl.classList.add("interest-title");
-  interestTitleEl.textContent = "Interests: ";
-
-  let interestListEl = document.createElement("ul");
-  interestListEl.classList.add("interest-list");
-
-  interests.forEach((interest) => {
-    let interestItemElement = document.createElement("li");
-    interestItemElement.textContent = interest.value;
-
-    interestListEl.append(interestItemElement);
-  });
-
-  interestWrapperEl.append(interestTitleEl, interestListEl);
-
-  // buttons
-  let privateInfoButton = document.createElement("button");
-  privateInfoButton.textContent = "Show private info";
-  privateInfoButton.classList.add("private-btn");
-
-  privateInfoButton.addEventListener("click", () => {
-    if (!privateInfoButton.classList.contains("hide")) {
-      studentPhoneEl.innerHTML = `<strong>Phone</strong>: ${studentPhone}`;
-      studentEmailEl.innerHTML = `<strong>Email</strong>: ${studentEmail}`;
-      privateInfoButton.textContent = "Hide personal info";
-    } else {
-      let hidePhone = hideByStar(studentPhone);
-      let hideEmail = hideByStar(studentEmail);
-      studentPhoneEl.innerHTML = `<strong>Phone</strong>: ${hidePhone}`;
-      studentEmailEl.innerHTML = `<strong>Email</strong>: ${hideEmail}`;
-      privateInfoButton.textContent = "Show personal info";
-    }
-    privateInfoButton.classList.toggle("hide");
-  });
-
-  let deleteStudentButton = document.createElement("button");
-  deleteStudentButton.textContent = "Remove student";
-  deleteStudentButton.classList.add("btn-delete");
-
-  deleteStudentButton.addEventListener("click", () => {
-    studentItem.remove();
-    let deleteText = `Student ${studentName} ${studentSurname} is removed`;
-    alertMessage(deleteText);
-  });
-
-  let editStudentButton = document.createElement("button");
-  editStudentButton.textContent = "Edit";
-
-  editStudentButton.addEventListener("click", () => {
-    // console.dir(studentFormEl.elements.group.value);
-    //studentFormEl.elements.group.value = "type 2";
-
-    studentFormEl.elements.name.value = studentName;
-    studentFormEl.elements.surname.value = studentSurname;
-    studentFormEl.elements.age.value = studentAge;
-    studentFormEl.elements.phone.value = studentPhone;
-    studentFormEl.elements.email.value = studentEmail;
-    studentFormEl.elements.group.value = studentGroup;
-    studentFormEl.elements["it-knowledge"].value = studentKnowledge;
-
-    studentFormEl.elements.languages.forEach((formInterest) => {
-      formInterest.checked = false;
-
-      interests.forEach((studentInterest) => {
-        if (studentInterest.value === formInterest.value) {
-          formInterest.checked = true;
-        }
-      });
-    });
-
-    studentFormEl.querySelector('[type="submit"]').textContent = "Save Changes";
-
-    // jei ne button, bet input type submit, input neturi text content, nes yra save
-    // uzdarantis tag'as, todel VALUE
-    //studentFormEl.querySelector('[type="submit"]').value = "Save Changes";
-    editStudent = studentItem;
-    itKnowledgeOutputReset();
-  });
-
-  studentItem.append(
-    nameEl,
-    surnameEl,
-    studentAgeEl,
-    studentPhoneEl,
-    studentEmailEl,
-    studentKnowledgeEl,
-    studentGroupEl,
-    interestWrapperEl,
-    privateInfoButton,
-    deleteStudentButton,
-    editStudentButton
-  );
-
-  if (editStudent) {
-    console.log("redaguojamas studentas");
-
-    // edit saugo originalaus studentItem reiksme
-    console.log(editStudent);
-    // studentItem kintamasis saugo dabartine formos studento reiksme
-    console.log(studentItem);
-
-    editStudent.replaceWith(studentItem);
-    editStudent = null;
-
-    let alertText = `Student edited (${studentName} ${studentSurname})`;
-    alertMessage(alertText);
-
-    studentFormEl.querySelector('[type="submit"]').textContent = "Submit";
-  } else {
-    console.log("kuriamas naujas studentas");
-
-    studentsListEl.prepend(studentItem);
-
-    let alertText = `Student created (${studentName} ${studentSurname})`;
-    alertMessage(alertText);
-  }
-
-  //studentFormEl.reset();
-  event.target.reset();
-  itKnowledgeOutputReset();
-});
-
-function alertMessage(text, elementClass = "") {
-  const alertEl = document.querySelector("#alert");
-  alertEl.textContent = text;
-
-  if (elementClass) alertEl.classList.add(elementClass);
-
-  setTimeout(() => {
-    alertEl.textContent = "";
-    if (elementClass) alertEl.classList.remove(elementClass);
-  }, 5000);
+  return validForm;
 }
 
 function inputErrorMessage(inputElement, errorMessage) {
