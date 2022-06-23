@@ -62,6 +62,8 @@ let hideByStar = (word) =>
     .map((a) => (a = "*"))
     .join("");
 
+function renderStudent() {}
+
 function renderInitialData(students) {
   students.map((student) => {
     let studentName = student.name;
@@ -162,7 +164,20 @@ function renderInitialData(students) {
       document.querySelector("#student-it-knowledge").value = studentKnowledge;
       studentFormEl.elements["it-knowledge"].value = studentKnowledge;
 
-      studentFormEl.elements.interest.forEach((formInterest) => {});
+      studentFormEl.elements.interest.forEach((formInterest) => {
+        formInterest.checked = false;
+        interests.forEach((studentInterest) => {
+          if (studentInterest.value === formInterest.value) {
+            formInterest.checked = true;
+          }
+        });
+      });
+
+      studentFormEl.querySelector('[type="submit"]').textContent =
+        "Save Changes";
+      editStudent = studentItem;
+
+      itKnowledgeOutputReset();
     });
 
     studentItem.append(
@@ -177,17 +192,34 @@ function renderInitialData(students) {
       privateInfoButton,
       deleteStudentButton
     );
-    studentsListEl.prepend(studentItem);
+
+    if (editStudent) {
+      editStudent.replaceWith(studentItem);
+      editStudent = null;
+
+      let alertText = `Student edited (${studentName} ${studentSurname})`;
+      alertMessage(alertText);
+      studentFormEl.querySelector('[type="submit]').textContent = "Submit";
+    } else {
+      studentsListEl.prepend(studentItem);
+      let alertText = `Student created (${studentName} ${studentSurname})`;
+      alertMessage(alertText);
+    }
   });
 }
 renderInitialData(INITIAL_STUDENT_DATA);
 
-const itKnowledgeInputEl = document.querySelector("#student-it-knowledge");
-const itKnowledgeOutputEl = document.querySelector("#it-knowledge-output");
+function itKnowledgeOutputReset() {
+  const itKnowledgeInputEl = document.querySelector("#student-it-knowledge");
+  const itKnowledgeOutputEl = document.querySelector("#it-knowledge-output");
 
-itKnowledgeInputEl.addEventListener("input", (event) => {
-  itKnowledgeOutputEl.textContent = event.target.value;
-});
+  itKnowledgeOutputEl.textContent = itKnowledgeInputEl.value;
+
+  itKnowledgeInputEl.addEventListener("input", (event) => {
+    itKnowledgeOutputEl.textContent = event.target.value;
+  });
+}
+itKnowledgeOutputReset();
 
 studentFormEl.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -274,7 +306,7 @@ studentFormEl.addEventListener("submit", (event) => {
   nameEl.innerHTML = `<strong>Name</strong>: <span class="student-name">${studentName}</span>`;
 
   let surnameEl = document.createElement("p");
-  surnameEl.innerHTML = `<strong>Surname</strong>: $<span class="student-surname">{studentSurname}</span>`;
+  surnameEl.innerHTML = `<strong>Surname</strong>: <span class="student-surname">${studentSurname}</span>`;
 
   let studentAgeEl = document.createElement("p");
   studentAgeEl.innerHTML = `<strong>Age</strong>: <span class="student-age">${studentAge}</span>`;
@@ -354,8 +386,8 @@ studentFormEl.addEventListener("submit", (event) => {
     studentFormEl.elements.age.value = studentAge;
     studentFormEl.elements.phone.value = studentPhone;
     studentFormEl.elements.email.value = studentEmail;
-    studentFormEl.elements["it-knowledge"].value = studentKnowledge;
     studentFormEl.elements.group.value = studentGroup;
+    studentFormEl.elements["it-knowledge"].value = studentKnowledge;
 
     studentFormEl.elements.languages.forEach((formInterest) => {
       formInterest.checked = false;
@@ -373,6 +405,7 @@ studentFormEl.addEventListener("submit", (event) => {
     // uzdarantis tag'as, todel VALUE
     //studentFormEl.querySelector('[type="submit"]').value = "Save Changes";
     editStudent = studentItem;
+    itKnowledgeOutputReset();
   });
 
   studentItem.append(
@@ -388,35 +421,35 @@ studentFormEl.addEventListener("submit", (event) => {
     deleteStudentButton,
     editStudentButton
   );
-  studentsListEl.prepend(studentItem);
+
+  if (editStudent) {
+    console.log("redaguojamas studentas");
+
+    // edit saugo originalaus studentItem reiksme
+    console.log(editStudent);
+    // studentItem kintamasis saugo dabartine formos studento reiksme
+    console.log(studentItem);
+
+    editStudent.replaceWith(studentItem);
+    editStudent = null;
+
+    let alertText = `Student edited (${studentName} ${studentSurname})`;
+    alertMessage(alertText);
+
+    studentFormEl.querySelector('[type="submit"]').textContent = "Submit";
+  } else {
+    console.log("kuriamas naujas studentas");
+
+    studentsListEl.prepend(studentItem);
+
+    let alertText = `Student created (${studentName} ${studentSurname})`;
+    alertMessage(alertText);
+  }
 
   //studentFormEl.reset();
   event.target.reset();
+  itKnowledgeOutputReset();
 });
-
-// if (editStudent) {
-//   console.log("redaguojamas studentas");
-
-//   // edit saugo originalaus studentItem reiksme
-//   console.log(editStudent);
-//   // studentItem kintamasis saugo dabartine formos studento reiksme
-//   console.log(studentItem);
-
-//   editStudent.replaceWith(studentItem);
-//   editStudent = null;
-
-//   let alertText = `Student edited (${studentName} ${studentSurname})`;
-//   alertMessage(alertText);
-
-//   studentFormEl.querySelector('[type="submit"]').textContent = "Submit";
-// } else {
-//   console.log("kuriamas naujas studentas");
-
-//   // studentListEl.prepend(studentItem);
-
-//   let alertText = `Student created (${studentName} ${studentSurname})`;
-//   alertMessage(alertText);
-// }
 
 function alertMessage(text, elementClass = "") {
   const alertEl = document.querySelector("#alert");
