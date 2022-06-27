@@ -142,7 +142,6 @@ function renderStudent(studentData) {
   deleteStudentButton.classList.add("btn-delete");
 
   deleteStudentButton.addEventListener("click", () => {
-    console.log(studentName);
     studentItem.remove();
     let deleteText = `Student ${studentName} ${studentSurname} is removed`;
     alertMessage(deleteText);
@@ -226,21 +225,9 @@ itKnowledgeOutputReset();
 studentFormEl.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  // let studentName = document.querySelector("#student-name").value;
-  // let studentSurname = document.getElementById("student-surname").value;
-  // let studentAge = studentFormEl.querySelector("#student-age").value;
-  // let studentPhone = studentFormEl.querySelector('[name="phone"]').value;
-  // let studentEmail = event.target.elements.email.value;
-  // let studentKnowledge = event.target.elements["it-knowledge"].value;
-  // let studentGroup = event.target.elements.group.value;
-
-  // let interests = studentFormEl.querySelectorAll(
-  //   'input[name="languages"]:checked'
-  // );
-
   // event.target selectina form'a
   let formIsValid = formErrorHandler(event.target);
-  // jei false tolimesniu veiksmu nevykdys, t.y. nekurs studentItem
+
   if (!formIsValid) return;
 
   let formInterests = studentFormEl.querySelectorAll(
@@ -249,14 +236,7 @@ studentFormEl.addEventListener("submit", (event) => {
   let interestValues = [...formInterests].map((interest) => {
     return interest.value;
   });
-  // let test = [];
-  // formInterest.forEach((interest) => {
-  //   test.push(interest.value);
-  // });
-  // ------------------------------***
-  //console.log(formInterest);
-  //console.log([...formInterest]); // nodeList iskleidzia, ir veiks map'as
-  // -------------------------------***
+
   let studentFormData = {
     name: document.querySelector("#student-name").value,
     surname: document.getElementById("student-surname").value,
@@ -270,157 +250,10 @@ studentFormEl.addEventListener("submit", (event) => {
 
   renderStudent(studentFormData);
 
-  // let studentsListEl = document.querySelector("#students-list");
-  // let studentItem = document.createElement("div");
-  // studentItem.classList.add("student-item");
-
-  // let nameEl = document.createElement("p");
-  // nameEl.innerHTML = `<strong>Name</strong>: <span class="student-name">${studentName}</span>`;
-
-  // let surnameEl = document.createElement("p");
-  // surnameEl.innerHTML = `<strong>Surname</strong>: <span class="student-surname">${studentSurname}</span>`;
-
-  // let studentAgeEl = document.createElement("p");
-  // studentAgeEl.innerHTML = `<strong>Age</strong>: <span class="student-age">${studentAge}</span>`;
-
-  // let studentPhoneEl = document.createElement("p");
-  // let hidePhone = hideByStar(studentPhone);
-  // studentPhoneEl.innerHTML = `<strong>Phone</strong>: ${hidePhone}`;
-
-  // let studentEmailEl = document.createElement("p");
-  // let hideEmail = hideByStar(studentEmail);
-  // studentEmailEl.innerHTML = `<strong>Email</strong>: ${hideEmail}`;
-
-  // let studentKnowledgeEl = document.createElement("p");
-  // studentKnowledgeEl.innerHTML = `<strong>IT knowledge</strong>: <span class="student-it-knowledge">${studentKnowledge}</span>`;
-
-  // let studentGroupEl = document.createElement("p");
-  // studentGroupEl.innerHTML = `<strong>Student group</strong>: <span class="student-group">${studentGroup}</span>`;
-  // // --------- get all checkboxes checked values
-  // let interestWrapperEl = document.createElement("div");
-  // interestWrapperEl.classList.add("interest-wrapper");
-
-  // let interestTitleEl = document.createElement("h4");
-  // interestTitleEl.classList.add("interest-title");
-  // interestTitleEl.textContent = "Interests: ";
-
-  // let interestListEl = document.createElement("ul");
-  // interestListEl.classList.add("interest-list");
-
-  // interests.forEach((interest) => {
-  //   let interestItemElement = document.createElement("li");
-  //   interestItemElement.textContent = interest.value;
-
-  //   interestListEl.append(interestItemElement);
-  // });
-
-  // interestWrapperEl.append(interestTitleEl, interestListEl);
-
-  // // buttons
-  // let privateInfoButton = document.createElement("button");
-  // privateInfoButton.textContent = "Show private info";
-  // privateInfoButton.classList.add("private-btn");
-
-  // privateInfoButton.addEventListener("click", () => {
-  //   if (!privateInfoButton.classList.contains("hide")) {
-  //     studentPhoneEl.innerHTML = `<strong>Phone</strong>: ${studentPhone}`;
-  //     studentEmailEl.innerHTML = `<strong>Email</strong>: ${studentEmail}`;
-  //     privateInfoButton.textContent = "Hide personal info";
-  //   } else {
-  //     let hidePhone = hideByStar(studentPhone);
-  //     let hideEmail = hideByStar(studentEmail);
-  //     studentPhoneEl.innerHTML = `<strong>Phone</strong>: ${hidePhone}`;
-  //     studentEmailEl.innerHTML = `<strong>Email</strong>: ${hideEmail}`;
-  //     privateInfoButton.textContent = "Show personal info";
-  //   }
-  //   privateInfoButton.classList.toggle("hide");
-  // });
-
-  // let deleteStudentButton = document.createElement("button");
-  // deleteStudentButton.textContent = "Remove student";
-  // deleteStudentButton.classList.add("btn-delete");
-
-  // deleteStudentButton.addEventListener("click", () => {
-  //   studentItem.remove();
-  //   let deleteText = `Student ${studentName} ${studentSurname} is removed`;
-  //   alertMessage(deleteText);
-  // });
-
-  // let editStudentButton = document.createElement("button");
-  // editStudentButton.textContent = "Edit";
-
-  // editStudentButton.addEventListener("click", () => {
-  //   // console.dir(studentFormEl.elements.group.value);
-  //   //studentFormEl.elements.group.value = "type 2";
-
-  //   studentFormEl.elements.name.value = studentName;
-  //   studentFormEl.elements.surname.value = studentSurname;
-  //   studentFormEl.elements.age.value = studentAge;
-  //   studentFormEl.elements.phone.value = studentPhone;
-  //   studentFormEl.elements.email.value = studentEmail;
-  //   studentFormEl.elements.group.value = studentGroup;
-  //   studentFormEl.elements["it-knowledge"].value = studentKnowledge;
-
-  //   studentFormEl.elements.languages.forEach((formInterest) => {
-  //     formInterest.checked = false;
-
-  //     interests.forEach((studentInterest) => {
-  //       if (studentInterest.value === formInterest.value) {
-  //         formInterest.checked = true;
-  //       }
-  //     });
-  //   });
-
-  //   studentFormEl.querySelector('[type="submit"]').textContent = "Save Changes";
-
-  //   // jei ne button, bet input type submit, input neturi text content, nes yra save
-  //   // uzdarantis tag'as, todel VALUE
-  //   //studentFormEl.querySelector('[type="submit"]').value = "Save Changes";
-  //   editStudent = studentItem;
-  //   itKnowledgeOutputReset();
-  // });
-
-  // studentItem.append(
-  //   nameEl,
-  //   surnameEl,
-  //   studentAgeEl,
-  //   studentPhoneEl,
-  //   studentEmailEl,
-  //   studentKnowledgeEl,
-  //   studentGroupEl,
-  //   interestWrapperEl,
-  //   privateInfoButton,
-  //   deleteStudentButton,
-  //   editStudentButton
-  // );
-
-  // if (editStudent) {
-  //   console.log("redaguojamas studentas");
-
-  //   // edit saugo originalaus studentItem reiksme
-  //   console.log(editStudent);
-  //   // studentItem kintamasis saugo dabartine formos studento reiksme
-  //   console.log(studentItem);
-
-  //   editStudent.replaceWith(studentItem);
-  //   editStudent = null;
-
-  //   let alertText = `Student edited (${studentName} ${studentSurname})`;
-  //   alertMessage(alertText);
-
-  //   studentFormEl.querySelector('[type="submit"]').textContent = "Submit";
-  // } else {
-  //   console.log("kuriamas naujas studentas");
-
-  //   studentsListEl.prepend(studentItem);
-
-  //   let alertText = `Student created (${studentName} ${studentSurname})`;
-  //   alertMessage(alertText);
-  // }
-
   //studentFormEl.reset();
   event.target.reset();
-  itKnowledgeOutputReset();
+
+  clearLocalStorage();
 });
 
 function alertMessage(text, elementClass = "") {
@@ -573,3 +406,88 @@ searchForm.addEventListener("submit", (event) => {
     }
   });
 });
+
+function storeFormDataInLocalStorage1() {
+  let nameValEl = document.querySelector("#student-name");
+  let surnameValEl = document.getElementById("student-surname");
+  let ageValEl = document.querySelector("#student-age");
+  let phoneValueEl = document.querySelector('[name="phone"]');
+  let emailValueEl = document.querySelector("#student-email");
+  let itKnowledgeValueEl = document.querySelector("#student-it-knowledge");
+  let groupValueEl = document.querySelector('[name="group"]:checked');
+
+  console.log(itKnowledgeValueEl);
+  console.log(groupValueEl);
+
+  nameValEl.addEventListener("input", (event) => {
+    localStorage.setItem("name", nameValEl.value);
+  });
+  nameValEl.value = localStorage.getItem("name");
+
+  surnameValEl.addEventListener("input", (event) => {
+    let surnameValue = event.target.value;
+    localStorage.setItem("surname", surnameValue);
+  });
+  surnameValEl.value = localStorage.getItem("surname");
+
+  ageValEl.addEventListener("input", (event) => {
+    let ageValue = event.target.value;
+    localStorage.setItem("age", ageValue);
+  });
+  ageValEl.value = localStorage.getItem("age");
+
+  phoneValueEl.addEventListener("input", (event) => {
+    let phoneValue = event.target.value;
+    localStorage.setItem("phone", phoneValue);
+  });
+  phoneValueEl.value = localStorage.getItem("phone");
+
+  emailValueEl.addEventListener("input", (event) => {
+    let emailValue = event.target.value;
+    localStorage.setItem("email", emailValue);
+  });
+  emailValueEl.value = localStorage.getItem("email");
+
+  itKnowledgeValueEl.addEventListener("input", (event) => {
+    localStorage.setItem("it-knowledge", itKnowledgeValueEl.value);
+  });
+}
+//storeFormDataInLocalStorage1();
+
+function clearLocalStorage() {
+  localStorage.setItem("name", "");
+  localStorage.setItem("surname", "");
+  localStorage.setItem("age", "");
+  localStorage.setItem("phone", "");
+  localStorage.setItem("email", "");
+  localStorage.setItem("it-knowledge", "");
+}
+// {
+//     itKnowledge: event.target.elements["it-knowledge"].value,
+//     group: event.target.elements.group.value,
+//     interests: interestValues,
+// }
+// -----------------------*
+function storeFormDataInLocalStorage2() {
+  studentFormEl.addEventListener("input", (event) => {
+    let inputName = event.target.name;
+    let inputValue = event.target.value;
+
+    localStorage.setItem(inputName, inputValue);
+  });
+
+  // dir grazina objekto formatu
+  console.dir(studentFormEl.elements.name.value);
+
+  studentFormEl.elements.name.value = localStorage.getItem("name");
+  studentFormEl.elements.surname.value = localStorage.getItem("surname");
+  studentFormEl.elements.age.value = localStorage.getItem("age");
+  studentFormEl.elements.phone.value = localStorage.getItem("phone");
+  studentFormEl.elements.email.value = localStorage.getItem("email");
+  studentFormEl.elements["it-knowledge"].value =
+    localStorage.getItem("it-knowledge");
+  studentFormEl.elements.group.value = localStorage.getItem("group");
+}
+storeFormDataInLocalStorage2();
+
+itKnowledgeOutputReset();
