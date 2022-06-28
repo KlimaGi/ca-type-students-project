@@ -68,7 +68,7 @@ function renderStudent(studentData) {
   let studentAge = studentData.age;
   let studentPhone = studentData.phone;
   let studentEmail = studentData.email;
-  let studentKnowledge = studentData.itKnowledge;
+  let studentItKnowledge = studentData.itKnowledge;
   let studentGroup = studentData.groupName;
   let interests = studentData.interests;
 
@@ -93,7 +93,7 @@ function renderStudent(studentData) {
   studentEmailEl.innerHTML = `<strong>Email</strong>: ${studentEmail}`;
 
   let studentKnowledgeEl = document.createElement("p");
-  studentKnowledgeEl.innerHTML = `<strong>IT knowledge</strong>: <span class="student-it-knowledge">${studentKnowledge}</span>`;
+  studentKnowledgeEl.innerHTML = `<strong>IT knowledge</strong>: <span class="student-it-knowledge">${studentItKnowledge}</span>`;
 
   let studentGroupEl = document.createElement("p");
   studentGroupEl.innerHTML = `<strong>Student group</strong>: <span class="student-group">${studentGroup}</span>`;
@@ -157,8 +157,8 @@ function renderStudent(studentData) {
     studentFormEl.elements.phone.value = studentPhone;
     studentFormEl.elements.email.value = studentEmail;
     studentFormEl.elements.group.value = studentGroup;
-    document.querySelector("#student-it-knowledge").value = studentKnowledge;
-    studentFormEl.elements["it-knowledge"].value = studentKnowledge;
+    document.querySelector("#student-it-knowledge").value = studentItKnowledge;
+    studentFormEl.elements["it-knowledge"].value = studentItKnowledge;
 
     studentFormEl.elements.languages.forEach((formInterest) => {
       formInterest.checked = false;
@@ -253,7 +253,7 @@ studentFormEl.addEventListener("submit", (event) => {
   //studentFormEl.reset();
   event.target.reset();
 
-  clearLocalStorage();
+  localStorage.removeItem("form-info");
 });
 
 function alertMessage(text, elementClass = "") {
@@ -454,14 +454,6 @@ function storeFormDataInLocalStorage1() {
 }
 //storeFormDataInLocalStorage1();
 
-function clearLocalStorage() {
-  localStorage.setItem("name", "");
-  localStorage.setItem("surname", "");
-  localStorage.setItem("age", "");
-  localStorage.setItem("phone", "");
-  localStorage.setItem("email", "");
-  localStorage.setItem("it-knowledge", "");
-}
 // {
 //     itKnowledge: event.target.elements["it-knowledge"].value,
 //     group: event.target.elements.group.value,
@@ -469,15 +461,35 @@ function clearLocalStorage() {
 // }
 // -----------------------*
 function storeFormDataInLocalStorage2() {
+  let interests = [];
+
   studentFormEl.addEventListener("input", (event) => {
     let inputName = event.target.name;
     let inputValue = event.target.value;
 
-    localStorage.setItem(inputName, inputValue);
+    if (inputName === "languages") {
+      console.log(inputValue);
+
+      if (interests.includes(inputValue)) {
+        let filteredInterests = interests.filter(
+          (interest) => interest !== inputValue
+        );
+        interests = filteredInterests;
+      } else {
+        interests.push(inputValue);
+      }
+
+      console.log(interests);
+
+      let jsonInterests = JSON.stringify(interests);
+      localStorage.setItem(inputName, jsonInterests);
+    } else {
+      localStorage.setItem(inputName, inputValue);
+    }
   });
 
   // dir grazina objekto formatu
-  console.dir(studentFormEl.elements.name.value);
+  //console.dir(studentFormEl.elements.name.value);
 
   studentFormEl.elements.name.value = localStorage.getItem("name");
   studentFormEl.elements.surname.value = localStorage.getItem("surname");
@@ -487,7 +499,58 @@ function storeFormDataInLocalStorage2() {
   studentFormEl.elements["it-knowledge"].value =
     localStorage.getItem("it-knowledge");
   studentFormEl.elements.group.value = localStorage.getItem("group");
+
+  let parsedInterests = JSON.parse(localStorage.getItem("interest"));
+  // veikia idingai
+  parsedInterests.map((interest) => {
+    console.log(studentFormEl);
+    studentFormEl.querySelector(`input[value="${interest}"]`).checked = true;
+  });
 }
-storeFormDataInLocalStorage2();
+//storeFormDataInLocalStorage2();
+
+function storeFormDataInLocalStorage3() {
+  studentFormEl.addEventListener("input", () => {
+    let formInterest = document.querySelectorAll(
+      'input[name="languages"]:checked'
+    );
+    let interestValues = [...formInterest].map((interest) => {
+      return interest.value;
+    });
+
+    let formInfo = {
+      name: studentFormEl.querySelector("#student-name").value,
+      surname: studentFormEl.querySelector("#student-surname").value,
+      age: studentFormEl.querySelector("#student-age").value,
+      phone: studentFormEl.querySelector("#student-phone").value,
+      email: studentFormEl.querySelector("#student-email").value,
+      itKnowledge: studentFormEl.querySelector("#student-it-knowledge").value,
+      group: studentFormEl.elements.group.value,
+      interests: interestValues,
+    };
+
+    localStorage.setItem("form-info", JSON.stringify(formInfo));
+  });
+
+  let parsedFormInfo = JSON.parse(localStorage.getItem("form-info"));
+
+  if (parsedFormInfo) {
+    studentFormEl.querySelector("#student-name").value = parsedFormInfo.name;
+    studentFormEl.querySelector("#student-surname").value =
+      parsedFormInfo.surname;
+    studentFormEl.querySelector("#student-age").value = parsedFormInfo.age;
+    studentFormEl.querySelector("#student-phone").value = parsedFormInfo.phone;
+    studentFormEl.querySelector("#student-email").value = parsedFormInfo.email;
+
+    studentFormEl.querySelector("#student-it-knowledge").value =
+      parsedFormInfo.itKnowledge;
+    studentFormEl.elements.group.value = parsedFormInfo.group;
+
+    parsedFormInfo.interests.map((interest) => {
+      studentFormEl.querySelector(`input[value="${interest}"]`).checked = true;
+    });
+  }
+}
+storeFormDataInLocalStorage3();
 
 itKnowledgeOutputReset();
