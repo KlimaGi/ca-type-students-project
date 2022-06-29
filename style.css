@@ -13,9 +13,15 @@
 .input-error {
   border-color: var(--color-error);
 }
-
+.for-msg {
+  position: relative;
+  padding: 0.2rem 0;
+}
 .input-error-message {
   color: var(--color-error);
+  position: absolute;
+  top: -18px;
+  font-size: 0.8rem;
 }
 
 .error-alert {
@@ -50,13 +56,20 @@
 }
 
 .block-2 fieldset {
-  margin: 0.8rem;
+  margin: 1rem 0.8rem;
   padding: 0.8rem;
   width: 22rem;
   border: 1px solid grey;
   border-radius: 3px;
 }
-
+.it-knowledge-div {
+  padding: 0.8rem;
+  border: 1px solid grey;
+  border-radius: 3px;
+}
+.it-knowledge-div input {
+  margin: 0 1rem;
+}
 .block-2 fieldset input {
   margin-left: 0.9rem;
 }
