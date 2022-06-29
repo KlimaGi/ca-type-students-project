@@ -87,10 +87,14 @@ function renderStudent(studentData) {
   studentAgeEl.innerHTML = `<strong>Age</strong>: <span class="student-age">${studentAge}</span>`;
 
   let studentPhoneEl = document.createElement("p");
-  studentPhoneEl.innerHTML = `<strong>Phone</strong>: ${studentPhone}`;
+  studentPhoneEl.innerHTML = `<strong>Phone</strong>: ${hideByStar(
+    studentPhone
+  )}`;
 
   let studentEmailEl = document.createElement("p");
-  studentEmailEl.innerHTML = `<strong>Email</strong>: ${studentEmail}`;
+  studentEmailEl.innerHTML = `<strong>Email</strong>: ${hideByStar(
+    studentEmail
+  )}`;
 
   let studentKnowledgeEl = document.createElement("p");
   studentKnowledgeEl.innerHTML = `<strong>IT knowledge</strong>: <span class="student-it-knowledge">${studentItKnowledge}</span>`;
@@ -170,9 +174,14 @@ function renderStudent(studentData) {
       });
     });
 
-    studentFormEl.querySelector('[type="submit"]').textContent = "Save Changes";
     editStudent = studentItem;
 
+    let submitBtn = studentFormEl.querySelector('[type="submit"]');
+    submitBtn.textContent = "Save Changes";
+
+    submitBtn.addEventListener("click", () => {
+      submitBtn.textContent = "Submit";
+    });
     itKnowledgeOutputReset();
   });
 
