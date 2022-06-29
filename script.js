@@ -235,7 +235,7 @@ itKnowledgeOutputReset();
 studentFormEl.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  // event.target selectina form'a
+  // event.target select'ina form'a
   let formIsValid = formErrorHandler(event.target);
 
   if (!formIsValid) return;
@@ -254,10 +254,9 @@ studentFormEl.addEventListener("submit", (event) => {
     phone: studentFormEl.querySelector('[name="phone"]').value,
     email: event.target.elements.email.value,
     itKnowledge: event.target.elements["it-knowledge"].value,
-    group: event.target.elements.group.value,
+    groupName: document.querySelector('input[name="group"]:checked').value,
     interests: interestValues,
   };
-
   renderStudent(studentFormData);
 
   //studentFormEl.reset();
