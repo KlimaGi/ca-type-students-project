@@ -13,95 +13,91 @@
 
   <h2 class="main-title">JS students form</h2>
   
-<form id="student-form" novalidate>
-  <div class="block-1">
-<div id="name">
-    <label for="student-name">Name: </label>
-    <input type="text" name="name" id="student-name" placeholder="Enter your name" class="required" value="Name">
-  </div>
-  
-  <div>
-    <label for="student-surname">Surname:</label>
-    <input type="text" name="surname" id="student-surname" placeholder="Enter your surname" class="required" value="Sur">
-  </div>
-  
-  <div>
-    <label for="student-age">Age:</label>
-    <input type="number" name="age" id="student-age" placeholder="Enter your age"  class="required" value="31">
-  </div>
-  
-  <div>
-    <label for="student-phone">Phone:</label>
-    <input type="tel" name="phone" id="student-phone" placeholder="Enter your phone" class="required" value="65857655585"> 
-  </div>
-  
-  <div id="email">
-    <label for="student-email">Email:</label>
-    <input type="email" name="email" id="student-email" placeholder="Enter your email" class="required" value="ted@ted.com">
-  </div>
+  <form id="student-form" novalidate class="form-block">
+    <div class="block-1">
+      <div id="name">
+        <label for="student-name">Name: </label>
+        <input type="text" name="name" id="student-name" placeholder="Enter your name" class="required" value="Name">
+      </div>
+      
+      <div>
+        <label for="student-surname">Surname:</label>
+        <input type="text" name="surname" id="student-surname" placeholder="Enter your surname" class="required" value="Sur">
+      </div>
+      
+      <div>
+        <label for="student-age">Age:</label>
+        <input type="number" name="age" id="student-age" placeholder="Enter your age"  class="required" value="31">
+      </div>
+      
+      <div>
+        <label for="student-phone">Phone:</label>
+        <input type="tel" name="phone" id="student-phone" placeholder="Enter your phone" class="required" value="65857655585"> 
+      </div>
+      
+      <div id="email">
+        <label for="student-email">Email:</label>
+        <input type="email" name="email" id="student-email" placeholder="Enter your email" class="required" value="ted@ted.com">
+      </div>
+    </div>
+    
+    
+    <div class="block-2">
+      <div>
+        <label for="student-it-knowledge">It knowledge:</label>
+        <input type="range" name="it-knowledge" id="student-it-knowledge" min="1" max="10" value="5" step="1" class="required">
+        <output id="it-knowledge-output"></output>
+      </div>
+    
+      <fieldset>
+        <legend>Group name:</legend>
+        <input id="student-group-1" type="radio" name="group" value="type 1" checked>
+        <label for="student-group-1">TYPE 1gr.</label>
 
-  </div>
-  
-  
-  <div class="block-2">
-  <div>
-    <label for="student-it-knowledge">It knowledge:</label>
-    <input type="range" name="it-knowledge" id="student-it-knowledge" min="1" max="10" value="5" step="1" class="required">
-  <output id="it-knowledge-output"></output>
-  </div>
-  
+        <input id="student-group-2" type="radio" name="group" value="type 2">
+        <label for="student-group-2">TYPE 2gr.</label>
 
-<fieldset>
-<legend>Group name:</legend>
-  <input id="student-group-1" type="radio" name="group" value="type 1" checked>
-  <label for="student-group-1">TYPE 1gr.</label>
+        <input id="student-group-3" type="radio" name="group" value="type 3">
+        <label for="student-group-3">TYPE 3gr.</label>
+      </fieldset>
 
-  <input id="student-group-2" type="radio" name="group" value="type 2">
-  <label for="student-group-2">TYPE 2gr.</label>
+      <fieldset>
+        <legend>IT languages of interest:</legend>
+        
+        <input type="checkbox" id="js" name="languages" value="js">
+        <label for="js">JS</label>
+      
+        <input type="checkbox" id="node-js" name="languages" value="nodejs">
+        <label for="node-js">Node.js</label>
+        
+        <input type="checkbox" id="c#" name="languages" value="c#">
+        <label for="c#">C#</label>
+      </fieldset>
+    </div>
 
-  <input id="student-group-3" type="radio" name="group" value="type 3">
-  <label for="student-group-3">TYPE 3gr.</label>
-</fieldset>
+    <button class="btn-form" type="submit">Submit</button>
+    <span id="alert"></span>
+  </form>
 
-<fieldset>
-  <legend>IT languages of interest:</legend>
-  
-    <input type="checkbox" id="js" name="languages" value="js">
-    <label for="js">JS</label>
- 
-    <input type="checkbox" id="node-js" name="languages" value="nodejs">
-    <label for="node-js">Node.js</label>
-  
-    <input type="checkbox" id="c#" name="languages" value="c#">
-    <label for="c#">C#</label>
-   
-</fieldset>
+  <form id="search-form" class="form-block">
+    <div>
+      <input type="text" name="search" id="search-input" class="search-item">
+      <input type="submit" value="search" class="btn">
+    </div>
+    
+    <div>
+      <select name="variations" id="" class="search-item">
+          <option value="name">Name</option>
+          <option value="surname">Surname</option>
+          <option value="age">Age</option>
+          <option value="it-knowledge">IT Knowledge</option>
+          <option value="group">Group</option>
+        </select>
+        <input type="submit" value="search" class="btn">
+    </div>
+  </form>
 
-  </div>
-
-  <button class="btn-form" type="submit">Submit</button>
-<span id="alert"></span>
-</form>
-
-<form id="search-form">
-  <input type="text" name="search" id="search-input">
-  <input type="submit" value="search">
-
-  <select name="variations" id="">
-    <option value="name">Name</option>
-    <option value="surname">Surname</option>
-    <option value="age">Age</option>
-    <option value="it-knowledge">IT Knowledge</option>
-    <option value="group">Group</option>
-  </select>
-  <input type="submit" value="search">
-</form>
-
-
-<div id="students-list"></div>
-
-
-
+  <div id="students-list"></div>
 
 </body>
 </html>

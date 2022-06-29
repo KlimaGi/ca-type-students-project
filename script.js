@@ -149,6 +149,7 @@ function renderStudent(studentData) {
 
   let editStudentButton = document.createElement("button");
   editStudentButton.textContent = "Edit";
+  editStudentButton.classList.add("btn");
 
   editStudentButton.addEventListener("click", () => {
     studentFormEl.elements.name.value = studentName;
